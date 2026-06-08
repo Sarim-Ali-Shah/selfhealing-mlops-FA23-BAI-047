@@ -1,23 +1,19 @@
-# Use Python 3.11 slim as base image
 FROM python:3.11-slim
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy requirements first (for Docker layer caching)
+# Install CPU-only torch first to avoid huge nvidia/cuda packages
+RUN pip install --no-cache-dir torch==2.3.0 --index-url https://download.pytorch.org/whl/cpu
+
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install remaining dependencies (torch already installed above)
+RUN pip install --no-cache-dir flask==3.0.3 transformers==4.41.2 prometheus-client==0.20.0 requests==2.32.3 pytest==8.2.2 selenium==4.21.0
 
-# Copy all project files into container
 COPY . .
 
-# Create logs directory (needed by app.py for writing predictions)
 RUN mkdir -p /app/logs
 
-# Expose Flask port
 EXPOSE 5000
 
-# Run the Flask app
 CMD ["python", "app.py"]
