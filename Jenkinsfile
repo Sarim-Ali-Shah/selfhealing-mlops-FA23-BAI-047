@@ -8,7 +8,6 @@ pipeline {
     }
 
     stages {
-
         stage('Fetch') {
             steps {
                 checkout scm
@@ -42,12 +41,14 @@ pipeline {
         stage('UI Test') {
             steps {
                 sh '''
-                    docker run --rm \
-                        --network host \
-                        -v $(pwd)/tests:/tests \
-                        sentiment-api:test \
-                        sh -c "pip install pytest selenium --quiet && BASE_URL=http://127.0.0.1:5000 python -m pytest /tests/test_ui.py -v"
-                '''
+            # Run selenium test using a container that has Chrome built in
+            docker run --rm \
+                --network host \
+                -v $(pwd)/tests:/tests \
+                -e BASE_URL=http://127.0.0.1:5000 \
+                selenium/standalone-chrome:latest \
+                bash -c "pip install pytest selenium requests --quiet && python -m pytest /tests/test_ui.py -v"
+        '''
             }
         }
 
@@ -77,7 +78,6 @@ pipeline {
                 '''
             }
         }
-
     }
 
     post {
