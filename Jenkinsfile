@@ -70,12 +70,12 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 sh '''
-                    kubectl apply -f k8s/pvc.yaml
-                    kubectl apply -f k8s/blue-deployment.yaml
-                    kubectl apply -f k8s/green-deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    kubectl rollout status deployment/sentiment-blue-deployment --timeout=300s
-                '''
+            kubectl apply -f k8s/pvc.yaml --validate=false
+            kubectl apply -f k8s/blue-deployment.yaml --validate=false
+            kubectl apply -f k8s/green-deployment.yaml --validate=false
+            kubectl apply -f k8s/service.yaml --validate=false
+            kubectl rollout status deployment/sentiment-blue-deployment --timeout=300s
+        '''
             }
         }
     }
