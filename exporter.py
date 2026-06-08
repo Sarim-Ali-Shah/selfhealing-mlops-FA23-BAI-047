@@ -9,7 +9,7 @@ CONFIDENCE_GAUGE = Gauge(
 )
 
 # The app runs on NodePort 32500
-APP_URL = "http://3.106.156.32:32500/api/latest-confidence"
+APP_URL = "http://192.168.49.2:32500/api/latest-confidence"
 
 def poll_confidence():
     """Poll the app every 5 seconds and update the Prometheus metric."""
