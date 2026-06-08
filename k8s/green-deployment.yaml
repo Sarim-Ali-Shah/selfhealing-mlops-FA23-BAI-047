@@ -17,5 +17,6 @@ spec:
       containers:
         - name: sentiment-api
           image: sarimali17/sentiment-api:stable
+          imagePullPolicy: Never
           ports:
             - containerPort: 5000
