@@ -15,5 +15,5 @@ receivers:
         http_config:
           basic_auth:
             username: 'admin'
-            password: 'admin'
+            password: '119d2bd838ffebd51af9894e1110969572'
         send_resolved: false
