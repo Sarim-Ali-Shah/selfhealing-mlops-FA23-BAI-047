@@ -8,6 +8,7 @@ pipeline {
                     kubectl --kubeconfig=/var/lib/jenkins/.kube/config patch service sentiment-api-service \
                         -p '{"spec":{"selector":{"app":"sentiment-api","slot":"green"}}}'
                     echo "Traffic switched to stable green deployment"
+                    sudo systemctl restart minikube-forward
                 '''
             }
         }
