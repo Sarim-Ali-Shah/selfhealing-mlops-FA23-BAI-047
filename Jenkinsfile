@@ -70,13 +70,6 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 sh '''
-            # Load images into Minikube
-            eval $(minikube docker-env)
-            docker pull sarimali17/sentiment-api:unstable
-            docker pull sarimali17/sentiment-api:stable
-            eval $(minikube docker-env --unset)
-
-            # Apply Kubernetes manifests
             kubectl --kubeconfig=/var/lib/jenkins/.kube/config apply -f k8s/pvc.yaml --validate=false
             kubectl --kubeconfig=/var/lib/jenkins/.kube/config apply -f k8s/blue-deployment.yaml --validate=false
             kubectl --kubeconfig=/var/lib/jenkins/.kube/config apply -f k8s/green-deployment.yaml --validate=false
